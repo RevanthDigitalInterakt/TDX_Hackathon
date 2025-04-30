@@ -2,14 +2,15 @@ global with sharing class RFMCategoryCount {
 
     @InvocableMethod(label='Fetch Top 5 RFM Metrics Category By Count')
     global static List<List<RFMCatCountOutput>> fetchtop5RFMCat(List<Requestv2> req) {
-        List<AggregateResult> metricsList = [
-            SELECT COUNT(Unified_Customer_ID__c) totalCount,
-                   RFM_Category__c 
-            FROM RFMMetrics__c
-            GROUP BY RFM_Category__c 
-            ORDER BY COUNT(Unified_Customer_ID__c) DESC
-            LIMIT 5
-        ];
+        // You could extend this to accept different fields in future
+        String queryString = 
+            'SELECT COUNT(Unified_Customer_ID__c) totalCount, RFM_Category__c ' +
+            'FROM RFMMetrics__c ' +
+            'GROUP BY RFM_Category__c ' +
+            'ORDER BY COUNT(Unified_Customer_ID__c) DESC ' +
+            'LIMIT 5';
+
+        List<AggregateResult> metricsList = Database.query(queryString);
 
         List<List<RFMCatCountOutput>> outputResponse = new List<List<RFMCatCountOutput>>();
         List<RFMCatCountOutput> responses = new List<RFMCatCountOutput>();
