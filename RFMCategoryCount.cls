@@ -2,7 +2,7 @@ global with sharing class RFMCategoryCount {
 
     @InvocableMethod(label='Fetch Top 5 RFM Metrics Category By Count')
     global static List<List<RFMCatCountOutput>> fetchtop5RFMCat(List<Requestv2> req) {
-        // You could extend this to accept different fields in future
+
         String queryString = 
             'SELECT COUNT(Unified_Customer_ID__c) totalCount, RFM_Category__c ' +
             'FROM RFMMetrics__c ' +
